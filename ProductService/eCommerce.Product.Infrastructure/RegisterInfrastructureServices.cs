@@ -16,6 +16,7 @@ public static class RegisterInfrastructureServices
         {
             options.UseMySQL(configuration.GetConnectionString("DefaultConnection")!);
         });
+        services.AddTransient<Repositories.IProductRepository, Repositories.ProductRepository>();
         return services;
     }
 }
