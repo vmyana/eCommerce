@@ -13,16 +13,12 @@ builder.Services.AddCoreServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
 builder.Services.AddFluentValidationAutoValidation();
-//Add model binder to read values from JSON to enum
 builder.Services.ConfigureHttpJsonOptions(options => { 
   options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
-//Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//Cors
 builder.Services.AddCors(options => {
   options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
@@ -32,9 +28,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+  app.MapOpenApi();
 }
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseExceptionHandlingMiddleware();
 app.UseRouting();
 app.UseAuthentication();
